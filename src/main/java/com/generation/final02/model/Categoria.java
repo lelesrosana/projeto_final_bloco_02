@@ -1,25 +1,34 @@
 package com.generation.final02.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-@Entity //transformando a classe em table (JPA) create table
-@Table(name = "tb_postagem")  // nome da tabela
+@Entity
+@Table(name = "tb_categoria") // Corrigi o nome da tabela para consistência
 public class Categoria {
-	
-	
-	@Id // coluna primary key
-	@GeneratedValue(strategy = GenerationType.IDENTITY)  // auto_increment
-	private Long id; 
 
-	@NotBlank
-	@Size(min = 05, max = 50)
-	private String categorias;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank
+    @Size(min = 05, max = 50)
+    private String categorias;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "categoria", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties("categoria")
+    private List<Produto> produto;
 
 	public Long getId() {
 		return id;
@@ -36,6 +45,14 @@ public class Categoria {
 	public void setCategorias(String categorias) {
 		this.categorias = categorias;
 	}
-	
-	
+
+	public List<Produto> getProduto() {
+		return produto;
+	}
+
+	public void setProduto(List<Produto> produto) {
+		this.produto = produto;
+	}
+
+
 }
