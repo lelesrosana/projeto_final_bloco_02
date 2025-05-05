@@ -35,7 +35,7 @@ public class CategoriaController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    // Buscar produtos por categoria
+
     @GetMapping("/produtos/{id}")
     public ResponseEntity<List<Produto>> getProdutosByCategoria(@PathVariable Long id) {
         Optional<Categoria> categoria = categoriaRepository.findById(id);
